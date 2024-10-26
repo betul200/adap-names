@@ -13,7 +13,7 @@ export class Name {
     
     // @methodtype: get-method
     public asNameString(delimiter: string = this.delimiter): string {
-    let result = " ";
+    let result = "";
     for (let i = 0; i < this.components.length; i++) {
         result += this.components[i];
     

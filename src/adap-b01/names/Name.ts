@@ -10,31 +10,46 @@ export class Name {
         this.components = other;
         this.delimiter = delimiter || this.DEFAULT_DELIMITER;
     }
-
+    // @methodtype: get-method
     public asNameString(delimiter: string = this.delimiter): string {
-    return this.components.join(delimiter || this.DEFAULT_DELIMITER);
+    let result = " ";
+    for (let i = 0; i < this.components.length; i++) {
+        result += this.components[i];
+    
+        if (i < this.components.length - 1) {
+            result += delimiter || this.DEFAULT_DELIMITER;
+    }
+            
+    }
+    return result;
     }
 
+    // @methodtype: get-method
     public getComponent(i: number): string {
         return this.components[i];
     }
 
+    // @methodtype: set-method
     public setComponent(i: number, c: string): void {
         this.components[i] = c;
     }
 
+    // @methodtype: get-method
     public getNoComponents(): number {
         return this.components.length;
     }
 
+    // @methodtype: regular-method
     public insert(i: number, c: string): void {
         this.components.splice(i,0,c);
     }
 
+    // @methodtype: regular-method
     public append(c: string): void {
         this.components.push(c);
     }
 
+    // @methodtype: regular-method
     public remove(i: number): void {
         this.components.splice(i,1);
     }

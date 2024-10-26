@@ -10,6 +10,7 @@ export class Name {
         this.components = other;
         this.delimiter = delimiter || this.DEFAULT_DELIMITER;
     }
+    
     // @methodtype: get-method
     public asNameString(delimiter: string = this.delimiter): string {
     let result = " ";

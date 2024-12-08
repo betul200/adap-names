@@ -1,84 +1,44 @@
-export class Name {
-    private readonly components: string[];
-    private readonly delimiter: string;
+import { Equality } from "../common/Equality";
+import { Cloneable } from "../common/Cloneable";
+import { Printable } from "../common/Printable";
 
-    constructor(components: string[], delimiter: string) {
-        this.components = [...components];
-        this.delimiter = delimiter;
-    }
+/**
+ * A name is a sequence of string components separated by a delimiter character.
+ * Special characters within the string may need masking, if they are to appear verbatim.
+ * There are only two special characters, the delimiter character and the escape character.
+ * The escape character can't be set, the delimiter character can.
+ * 
+ * Homogenous name examples
+ * 
+ * "oss.cs.fau.de" is a name with four name components and the delimiter character '.'.
+ * "///" is a name with four empty components and the delimiter character '/'.
+ * "Oh\.\.\." is a name with one component, if the delimiter character is '.'.
+ */
+export interface Name extends Cloneable, Printable, Equality {
 
-    isEmpty(): boolean {
-        return this.components.length === 0;
-    }
+    /**
+     * Returns true, if number of components == 0; else false
+     */
+    isEmpty(): boolean;
 
-    getNoComponents(): number {
-        return this.components.length;
-    }
+    /** 
+     * Returns number of components in Name instance
+     */
+    getNoComponents(): number;
 
-    getComponent(i: number): string {
-        if (i < 0 || i >= this.components.length) {
-            throw new Error("Index out of bounds");
-        }
-        return this.components[i];
-    }
+    getComponent(i: number): string;
 
-    setComponent(i: number, c: string): Name {
-        if (i < 0 || i >= this.components.length) {
-            throw new Error("Index out of bounds");
-        }
-        const newComponents = [...this.components];
-        newComponents[i] = c;
-        return new Name(newComponents, this.delimiter);
-    }
+    /** Expects that new Name component c is properly masked */
+    setComponent(i: number, c: string): void;
 
-    insert(i: number, c: string): Name {
-        if (i < 0 || i > this.components.length) {
-            throw new Error("Index out of bounds");
-        }
-        const newComponents = [
-            ...this.components.slice(0, i),
-            c,
-            ...this.components.slice(i),
-        ];
-        return new Name(newComponents, this.delimiter);
-    }
+    /** Expects that new Name component c is properly masked */
+    insert(i: number, c: string): void;
 
-    append(c: string): Name {
-        const newComponents = [...this.components, c];
-        return new Name(newComponents, this.delimiter);
-    }
+    /** Expects that new Name component c is properly masked */
+    append(c: string): void;
 
-    remove(i: number): Name {
-        if (i < 0 || i >= this.components.length) {
-            throw new Error("Index out of bounds");
-        }
-        const newComponents = [
-            ...this.components.slice(0, i),
-            ...this.components.slice(i + 1),
-        ];
-        return new Name(newComponents, this.delimiter);
-    }
-
-    concat(other: Name): Name {
-        const newComponents = [...this.components, ...other.components];
-        return new Name(newComponents, this.delimiter);
-    }
-
-    equals(other: any): boolean {
-        if (!(other instanceof Name)) {
-            return false;
-        }
-        return (
-            this.components.join(this.delimiter) ===
-            other.components.join(other.delimiter)
-        );
-    }
-
-    clone(): Name {
-        return new Name(this.components, this.delimiter);
-    }
-
-    toString(): string {
-        return this.components.join(this.delimiter);
-    }
+    remove(i: number): void;
+    
+    concat(other: Name): void;
+    
 }
